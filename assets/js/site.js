@@ -23,37 +23,9 @@ function setText(selector, value) {
   });
 }
 
-function createCard(item) {
-  const article = document.createElement("article");
-  article.className = "card";
-
-  const title = document.createElement("h3");
-  title.textContent = item.title;
-  article.append(title);
-
-  if (item.period || item.role || item.place) {
-    const meta = document.createElement("p");
-    meta.className = "card-meta";
-    meta.textContent = [item.period, item.role, item.place].filter(Boolean).join(" · ");
-    article.append(meta);
-  }
-
-  const description = document.createElement("p");
-  description.textContent = item.description;
-  article.append(description);
-
-  if (item.href && item.linkLabel) {
-    const link = document.createElement("a");
-    link.href = item.href;
-    link.textContent = item.linkLabel;
-    link.className = "text-link";
-    article.append(link);
-  }
-
-  return article;
-}
-
 function renderParagraphs(container, paragraphs) {
+  if (!container) return;
+
   container.replaceChildren(
     ...paragraphs.map((text) => {
       const paragraph = document.createElement("p");
@@ -63,11 +35,38 @@ function renderParagraphs(container, paragraphs) {
   );
 }
 
-function renderCards(container, items) {
-  container.replaceChildren(...items.map(createCard));
+function createLink(linkItem) {
+  const link = document.createElement("a");
+  link.className = "text-link";
+  link.href = linkItem.href;
+  link.textContent = linkItem.label;
+  if (linkItem.download) link.setAttribute("download", "");
+  return link;
+}
+
+function createItemSection(section) {
+  const block = document.createElement("div");
+  block.className = "timeline-subsection";
+
+  const title = document.createElement("h4");
+  title.textContent = section.title;
+
+  const list = document.createElement("ul");
+  list.replaceChildren(
+    ...section.items.map((text) => {
+      const item = document.createElement("li");
+      item.textContent = text;
+      return item;
+    })
+  );
+
+  block.append(title, list);
+  return block;
 }
 
 function renderTimeline(container, items) {
+  if (!container) return;
+
   container.replaceChildren(
     ...items.map((item) => {
       const row = document.createElement("article");
@@ -78,78 +77,45 @@ function renderTimeline(container, items) {
       period.textContent = item.period;
 
       const body = document.createElement("div");
-      const title = document.createElement("h3");
-      title.textContent = item.role;
+      body.className = "timeline-body";
 
-      const place = document.createElement("p");
-      place.className = "timeline-place";
-      place.textContent = item.place;
+      const title = item.href ? document.createElement("a") : document.createElement("h3");
+      title.textContent = item.title;
+      if (item.href) {
+        title.href = item.href;
+        title.className = "timeline-title-link";
+      }
 
-      const description = document.createElement("p");
-      description.textContent = item.description;
+      body.append(title);
 
-      body.append(title, place, description);
+      if (item.place) {
+        const place = document.createElement("p");
+        place.className = "timeline-place";
+        place.textContent = item.place;
+        body.append(place);
+      }
+
+      if (item.description) {
+        const description = document.createElement("p");
+        description.textContent = item.description;
+        body.append(description);
+      }
+
+      if (item.sections) {
+        body.append(...item.sections.map(createItemSection));
+      }
+
+      if (item.links) {
+        const links = document.createElement("div");
+        links.className = "timeline-links";
+        links.append(...item.links.map(createLink));
+        body.append(links);
+      }
+
       row.append(period, body);
       return row;
     })
   );
-}
-
-function renderStack(container, groups) {
-  container.replaceChildren(
-    ...groups.map((group) => {
-      const block = document.createElement("article");
-      block.className = "stack-group";
-
-      const title = document.createElement("h3");
-      title.textContent = group.title;
-
-      const list = document.createElement("ul");
-      list.replaceChildren(
-        ...group.items.map((item) => {
-          const element = document.createElement("li");
-          element.textContent = item;
-          return element;
-        })
-      );
-
-      block.append(title, list);
-      return block;
-    })
-  );
-}
-
-function renderContacts(container, links) {
-  container.replaceChildren(
-    ...links.map((item) => {
-      const link = document.createElement("a");
-      link.className = "contact-link";
-      link.href = item.href || "#contacts";
-      link.textContent = item.value;
-      link.setAttribute("aria-label", item.label);
-
-      const label = document.createElement("span");
-      label.textContent = item.label;
-
-      link.prepend(label);
-      return link;
-    })
-  );
-}
-
-function updateCvLink(content) {
-  const link = document.querySelector("[data-cv-link]");
-  if (!link) return;
-
-  if (content.downloadCv.fileUrl) {
-    link.href = content.downloadCv.fileUrl;
-    link.removeAttribute("aria-disabled");
-    link.setAttribute("download", "");
-  } else {
-    link.href = "#download-cv";
-    link.setAttribute("aria-disabled", "true");
-    link.removeAttribute("download");
-  }
 }
 
 export function setLanguage(language) {
@@ -157,6 +123,7 @@ export function setLanguage(language) {
   const content = siteContent[nextLanguage];
 
   document.documentElement.lang = content.meta.lang;
+  document.documentElement.dataset.theme = "ink";
   document.title = content.meta.title;
   document
     .querySelector("meta[name='description']")
@@ -175,14 +142,12 @@ export function setLanguage(language) {
     if (typeof value === "string") element.textContent = value;
   });
 
-  renderParagraphs(document.querySelector("[data-list='about.paragraphs']"), content.about.paragraphs);
+  renderTimeline(document.querySelector("[data-list='education.items']"), content.education.items);
   renderTimeline(document.querySelector("[data-list='experience.items']"), content.experience.items);
-  renderCards(document.querySelector("[data-list='achievements.items']"), content.achievements.items);
-  renderCards(document.querySelector("[data-list='research.items']"), content.research.items);
-  renderCards(document.querySelector("[data-list='teaching.items']"), content.teaching.items);
-  renderStack(document.querySelector("[data-list='techStack.groups']"), content.techStack.groups);
-  renderContacts(document.querySelector("[data-list='contacts.links']"), content.contacts.links);
-  updateCvLink(content);
+  renderTimeline(document.querySelector("[data-list='research.items']"), content.research.items);
+  renderTimeline(document.querySelector("[data-list='teaching.items']"), content.teaching.items);
+  renderTimeline(document.querySelector("[data-list='techStack.items']"), content.techStack.items);
+  renderTimeline(document.querySelector("[data-list='contacts.items']"), content.contacts.items);
 
   document.querySelectorAll("[data-lang]").forEach((button) => {
     const isActive = button.dataset.lang === nextLanguage;
@@ -191,8 +156,11 @@ export function setLanguage(language) {
 
   const url = new URL(window.location.href);
   url.searchParams.set("lang", nextLanguage);
-  window.history.replaceState({}, "", url);
+  window.history.replaceState({}, "", `${url.pathname}${url.search}`);
   window.localStorage.setItem("site-language", nextLanguage);
+  window.requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  });
 }
 
 document.querySelectorAll("[data-lang]").forEach((button) => {

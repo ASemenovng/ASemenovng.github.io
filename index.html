@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="TODO: персональная professional profile page инженера / researcher."
+      content="Профессиональный профиль Андрея Семенова: инженерная работа, исследования, преподавание и технический стек."
     />
-    <title>TODO: Имя Фамилия | Professional Profile</title>
+    <title>Андрей Семенов | Профессиональный профиль</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,11 +19,13 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#top" data-field="brand">TODO: Имя Фамилия</a>
+      <a class="brand" href="#top" data-field="brand">Андрей Семенов</a>
       <nav class="nav" aria-label="Основная навигация">
-        <a href="#about" data-nav="about">О себе</a>
         <a href="#experience" data-nav="experience">Опыт</a>
-        <a href="#research" data-nav="research">Research</a>
+        <a href="#tech-stack" data-nav="techStack">Технический стек</a>
+        <a href="#education" data-nav="education">Образование</a>
+        <a href="#research" data-nav="research">Исследования</a>
+        <a href="#teaching" data-nav="teaching">Преподавание</a>
         <a href="#contacts" data-nav="contacts">Контакты</a>
       </nav>
       <div class="language-switcher" data-lang-switcher aria-label="Выбор языка">
@@ -35,115 +37,67 @@
     <main id="top">
       <section class="hero section-band" data-section="hero">
         <div class="hero-copy">
-          <p class="eyebrow" data-field="hero.eyebrow">TODO: professional profile</p>
-          <h1 data-field="hero.name">TODO: Имя Фамилия</h1>
+          <p class="eyebrow" data-field="hero.eyebrow">Профессиональный профиль</p>
+          <h1 data-field="hero.name">Андрей Семенов</h1>
           <p class="hero-title" data-field="hero.title">
-            TODO: инженер / researcher / область специализации
+            Разработчик, исследователь
           </p>
           <p class="hero-summary" data-field="hero.summary">
-            TODO: краткое позиционирование на 2-3 строки.
+            Работаю с Java, Kotlin, Python, распределенными системами и исследовательскими задачами в области блокчейн, криптографии, zkp.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#download-cv" data-field="hero.primaryAction">
-              Скачать CV
-            </a>
             <a class="button secondary" href="#contacts" data-field="hero.secondaryAction">
               Контакты
             </a>
           </div>
         </div>
-        <aside class="hero-panel" aria-label="Ключевые факты">
-          <div class="fact">
-            <span data-field="hero.facts.0.label">TODO</span>
-            <strong data-field="hero.facts.0.value">Специализация</strong>
-          </div>
-          <div class="fact">
-            <span data-field="hero.facts.1.label">TODO</span>
-            <strong data-field="hero.facts.1.value">Research focus</strong>
-          </div>
-          <div class="fact">
-            <span data-field="hero.facts.2.label">TODO</span>
-            <strong data-field="hero.facts.2.value">Location / availability</strong>
-          </div>
-        </aside>
-      </section>
-
-      <section id="about" class="section-band" data-section="about">
-        <div class="section-heading">
-          <p class="eyebrow" data-field="about.eyebrow">TODO</p>
-          <h2 data-field="about.title">О себе</h2>
-        </div>
-        <div class="prose" data-list="about.paragraphs">
-          <p>TODO: краткое описание профессионального фокуса, опыта и интересов.</p>
-        </div>
       </section>
 
       <section id="experience" class="section-band" data-section="experience">
         <div class="section-heading">
-          <p class="eyebrow" data-field="experience.eyebrow">TODO</p>
-          <h2 data-field="experience.title">Опыт</h2>
+          <p class="eyebrow" data-field="experience.eyebrow">Опыт</p>
         </div>
         <div class="timeline" data-list="experience.items"></div>
       </section>
 
-      <section id="achievements" class="section-band" data-section="achievements">
+      <section id="tech-stack" class="section-band" data-section="techStack">
         <div class="section-heading">
-          <p class="eyebrow" data-field="achievements.eyebrow">TODO</p>
-          <h2 data-field="achievements.title">Достижения</h2>
+          <p class="eyebrow" data-field="techStack.eyebrow">Технический стек</p>
         </div>
-        <div class="cards-grid" data-list="achievements.items"></div>
+        <div class="timeline" data-list="techStack.items"></div>
+      </section>
+
+      <section id="education" class="section-band" data-section="education">
+        <div class="section-heading">
+          <p class="eyebrow" data-field="education.eyebrow">Образование</p>
+        </div>
+        <div class="timeline" data-list="education.items"></div>
       </section>
 
       <section id="research" class="section-band" data-section="research">
         <div class="section-heading">
-          <p class="eyebrow" data-field="research.eyebrow">TODO</p>
-          <h2 data-field="research.title">Research</h2>
+          <p class="eyebrow" data-field="research.eyebrow">Исследования</p>
         </div>
-        <div class="cards-grid" data-list="research.items"></div>
+        <div class="timeline" data-list="research.items"></div>
       </section>
 
       <section id="teaching" class="section-band" data-section="teaching">
         <div class="section-heading">
-          <p class="eyebrow" data-field="teaching.eyebrow">TODO</p>
-          <h2 data-field="teaching.title">Teaching</h2>
+          <p class="eyebrow" data-field="teaching.eyebrow">Преподавание</p>
         </div>
-        <div class="cards-grid" data-list="teaching.items"></div>
-      </section>
-
-      <section id="tech-stack" class="section-band" data-section="techStack">
-        <div class="section-heading">
-          <p class="eyebrow" data-field="techStack.eyebrow">TODO</p>
-          <h2 data-field="techStack.title">Tech Stack</h2>
-        </div>
-        <div class="stack-grid" data-list="techStack.groups"></div>
-      </section>
-
-      <section id="download-cv" class="section-band compact" data-section="downloadCv">
-        <div class="section-heading">
-          <p class="eyebrow" data-field="downloadCv.eyebrow">TODO</p>
-          <h2 data-field="downloadCv.title">Download CV</h2>
-        </div>
-        <div class="download-row">
-          <p data-field="downloadCv.description">
-            TODO: добавьте PDF-файл CV в assets/files и укажите путь в assets/js/content.js.
-          </p>
-          <a class="button primary" data-cv-link href="#" aria-disabled="true" data-field="downloadCv.action">
-            Скачать CV
-          </a>
-        </div>
+        <div class="timeline" data-list="teaching.items"></div>
       </section>
 
       <section id="contacts" class="section-band" data-section="contacts">
         <div class="section-heading">
-          <p class="eyebrow" data-field="contacts.eyebrow">TODO</p>
-          <h2 data-field="contacts.title">Контакты</h2>
+          <p class="eyebrow" data-field="contacts.eyebrow">Контакты</p>
         </div>
-        <div class="contact-grid" data-list="contacts.links"></div>
+        <div class="timeline" data-list="contacts.items"></div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <span data-field="footer">TODO: Имя Фамилия</span>
+      <span data-field="footer">Андрей Семенов</span>
       <span>&copy; <span data-year></span></span>
     </footer>
   </body>
